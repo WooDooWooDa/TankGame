@@ -12,6 +12,7 @@ public class TankGame extends Game {
     private ArrayList<Shell> shells;
 
     public TankGame() {
+        shells = new ArrayList<>();
         gamePad = new GamePad();
         tank = new Tank(gamePad);
     }
@@ -31,14 +32,20 @@ public class TankGame extends Game {
         if (gamePad.isQuitPressed()) {
             super.stop();
         }
-        //if (gamePad.isFirePressed()) {
-        //    shells.add(new Shell(tank.getDirection()));
-        //}
+        if (gamePad.isFirePressed()) {
+            shells.add(new Shell(tank.getDirection(), tank.getX(), tank.getY()));
+        }
+        for (Shell shell : shells) {
+            shell.update();
+        }
         tank.update();
     }
 
     @Override
     public void draw(Buffer buffer) {
+        for (Shell shell : shells) {
+            shell.draw(buffer);
+        }
         tank.draw(buffer);
     }
 }
