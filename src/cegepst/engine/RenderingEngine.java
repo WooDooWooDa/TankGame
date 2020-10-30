@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class RenderingEngine {
+    private static RenderingEngine instance;
 
     private JFrame frame;
     private JPanel panel;
@@ -14,9 +15,11 @@ public class RenderingEngine {
     private final int windowWidth = 800;
     private final int windowHeight = 600;
 
-    public RenderingEngine() {
-        initializeFrame();
-        initializePanel();
+    public static RenderingEngine getInstance() {
+        if (instance == null) {
+            instance = new RenderingEngine();
+        }
+        return instance;
     }
 
     public void start() {
@@ -45,12 +48,17 @@ public class RenderingEngine {
         panel.addKeyListener(listener);
     }
 
+    private RenderingEngine() {
+        initializeFrame();
+        initializePanel();
+    }
+
     private void initializeFrame() {
         frame = new JFrame();
         frame.setSize(windowWidth, windowHeight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);    //empeche la redimension
-        frame.setTitle("Moving Rectangle game");
+        frame.setTitle("TankGame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //programme le bouton X pour quitter le programme
         frame.setUndecorated(true); //enleve la bar en haut
     }

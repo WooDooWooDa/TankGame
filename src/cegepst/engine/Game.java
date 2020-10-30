@@ -10,7 +10,7 @@ public abstract class Game {
     private GameTime gameTime;
 
     public Game() {
-        renderingEngine = new RenderingEngine();
+        renderingEngine = RenderingEngine.getInstance();
     }
 
     public void start() {
