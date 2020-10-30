@@ -34,11 +34,12 @@ public class Tank extends ControllableEntity {
     }
 
     private void canonDirection() {
-        if (getDirection() == Direction.UP) {
-            canonX = 12;
-            canonY = -10;
-            canonWidth = 5;
-            canonHeight = 10;
+        switch (getDirection()) {
+            case UP:
+                canonX = 12;
+                canonY = -10;
+                canonWidth = 5;
+                canonHeight = 10;
         }
         if (getDirection() == Direction.DOWN) {
             canonX = 12;
