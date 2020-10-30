@@ -3,10 +3,13 @@ package cegepst;
 import cegepst.engine.Buffer;
 import cegepst.engine.Game;
 
+import java.util.ArrayList;
+
 public class TankGame extends Game {
 
     private Tank tank;
     private GamePad gamePad;
+    private ArrayList<Shell> shells;
 
     public TankGame() {
         gamePad = new GamePad();
@@ -28,6 +31,9 @@ public class TankGame extends Game {
         if (gamePad.isQuitPressed()) {
             super.stop();
         }
+        //if (gamePad.isFirePressed()) {
+        //    shells.add(new Shell(tank.getDirection()));
+        //}
         tank.update();
     }
 
