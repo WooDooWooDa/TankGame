@@ -15,7 +15,7 @@ public class Tank extends ControllableEntity {
     private int canonWidth;
     private int canonHeight;
 
-    private ArrayList<Shell> shells;
+    private ArrayList<Shell> explodedShells;
     private int fireCooldown = 0;
 
     public Tank(MovementController controller) {
@@ -23,7 +23,7 @@ public class Tank extends ControllableEntity {
         setDimension(30, 30);
         setSpeed(2);
         teleport(100, 100);
-        shells = new ArrayList<>();
+
     }
 
     @Override
@@ -35,16 +35,10 @@ public class Tank extends ControllableEntity {
         if (fireCooldown <= 0) {
             fireCooldown = 0;
         }
-        for (Shell shell : shells) {
-            shell.update();
-        }
     }
 
     @Override
     public void draw(Buffer buffer) {
-        for (Shell shell : shells) {
-            shell.draw(buffer);
-        }
         if (hasMoved()) {
             drawHitBox(buffer);
         }
@@ -52,9 +46,9 @@ public class Tank extends ControllableEntity {
         buffer.drawRectangle(canonX, canonY, canonWidth, canonHeight, Color.GREEN); //canon
     }
 
-    public void fire() {
+    public Shell fire() {
         fireCooldown = 50;
-        shells.add(new Shell(this));
+        return new Shell(this);
     }
 
     public boolean canFire() {
