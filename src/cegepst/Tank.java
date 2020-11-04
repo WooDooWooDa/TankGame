@@ -27,6 +27,7 @@ public class Tank extends ControllableEntity {
 
     @Override
     public void update() {
+        super.update();
         moveAccordingToController();
         canonDirection();
         for (Shell shell : shells) {
@@ -38,6 +39,9 @@ public class Tank extends ControllableEntity {
     public void draw(Buffer buffer) {
         for (Shell shell : shells) {
             shell.draw(buffer);
+        }
+        if (hasMoved()) {
+            drawHitBox(buffer);
         }
         buffer.drawRectangle(x, y, width, height, Color.GREEN);
         buffer.drawRectangle(x + canonX, y + canonY, canonWidth, canonHeight, Color.GREEN); //canon
