@@ -6,6 +6,7 @@ import cegepst.engine.controls.MovementController;
 import cegepst.engine.entities.ControllableEntity;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Tank extends ControllableEntity {
 
@@ -14,23 +15,36 @@ public class Tank extends ControllableEntity {
     private int canonWidth;
     private int canonHeight;
 
+    private ArrayList<Shell> shells;
+
     public Tank(MovementController controller) {
         super(controller);
         setDimension(30, 30);
         setSpeed(2);
         teleport(100, 100);
+        shells = new ArrayList<>();
     }
 
     @Override
     public void update() {
         moveAccordingToController();
         canonDirection();
+        for (Shell shell : shells) {
+            shell.update();
+        }
     }
 
     @Override
     public void draw(Buffer buffer) {
+        for (Shell shell : shells) {
+            shell.draw(buffer);
+        }
         buffer.drawRectangle(x, y, width, height, Color.GREEN);
         buffer.drawRectangle(x + canonX, y + canonY, canonWidth, canonHeight, Color.GREEN); //canon
+    }
+
+    public void shot() {
+        shells.add(new Shell(getDirection(), x + 12, y + 12));
     }
 
     private void canonDirection() {
