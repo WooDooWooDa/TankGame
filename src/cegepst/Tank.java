@@ -16,6 +16,7 @@ public class Tank extends ControllableEntity {
     private int canonHeight;
 
     private ArrayList<Shell> shells;
+    private int fireCooldown = 0;
 
     public Tank(MovementController controller) {
         super(controller);
@@ -30,6 +31,10 @@ public class Tank extends ControllableEntity {
         super.update();
         moveAccordingToController();
         canonDirection();
+        fireCooldown--;
+        if (fireCooldown <= 0) {
+            fireCooldown = 0;
+        }
         for (Shell shell : shells) {
             shell.update();
         }
@@ -44,36 +49,40 @@ public class Tank extends ControllableEntity {
             drawHitBox(buffer);
         }
         buffer.drawRectangle(x, y, width, height, Color.GREEN);
-        buffer.drawRectangle(x + canonX, y + canonY, canonWidth, canonHeight, Color.GREEN); //canon
+        buffer.drawRectangle(canonX, canonY, canonWidth, canonHeight, Color.GREEN); //canon
     }
 
-    public void shot() {
-        shells.add(new Shell(getDirection(), x + 12, y + 12));
+    public void fire() {
+        fireCooldown = 50;
+        shells.add(new Shell(this));
+    }
+
+    public boolean canFire() {
+        return fireCooldown == 0;
     }
 
     private void canonDirection() {
-        switch (getDirection()) {
-            case UP:
-                canonX = 12;
-                canonY = -10;
-                canonWidth = 5;
-                canonHeight = 10;
+        if (getDirection() == Direction.UP) {
+            canonX = 12 + x;
+            canonY = -10 + y;
+            canonWidth = 5;
+            canonHeight = 10;
         }
         if (getDirection() == Direction.DOWN) {
-            canonX = 12;
-            canonY = 30;
+            canonX = 12 + x;
+            canonY = 30 + y;
             canonWidth = 5;
             canonHeight = 10;
         }
         if (getDirection() == Direction.RIGHT) {
-            canonX = 30;
-            canonY = 12;
+            canonX = 30 + x;
+            canonY = 12 + y;
             canonWidth = 10;
             canonHeight = 5;
         }
         if (getDirection() == Direction.LEFT) {
-            canonX = -10;
-            canonY = 12;
+            canonX = -10 + x;
+            canonY = 12 + y;
             canonWidth = 10;
             canonHeight = 5;
         }

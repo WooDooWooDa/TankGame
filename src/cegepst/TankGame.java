@@ -36,8 +36,8 @@ public class TankGame extends Game {
         if (gamePad.isQuitPressed()) {
             super.stop();
         }
-        if (gamePad.isFirePressed()) {
-            tank.shot();
+        if (gamePad.isFirePressed() && tank.canFire()) {
+            tank.fire();
         }
         tank.update();
     }
